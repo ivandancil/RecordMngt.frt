@@ -1,10 +1,8 @@
-import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, useTheme } from "@mui/material"; // Import useMediaQuery
 import { tokens } from "../../theme";
-import { useState } from "react";
 import { Link } from "react-router-dom";
-// Ensure these imports are correct for react-pro-sidebar v1.x
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import Profile from "../../assets/profile-1.jpg"
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -18,7 +16,6 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
-// Interface for Item props
 interface ItemProps {
   title: string;
   to: string;
@@ -27,7 +24,6 @@ interface ItemProps {
   setSelected: (title: string) => void;
 }
 
-// Helper Component for Menu Items
 const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -39,37 +35,28 @@ const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
       }}
       onClick={() => setSelected(title)}
       icon={icon}
-      // The Link component from react-router-dom is rendered inside MenuItem
-      // ensuring navigation works when the item is clicked.
-      component={<Link to={to} />}
     >
       <Typography>{title}</Typography>
+      <Link to={to} />
     </MenuItem>
   );
 };
 
-const SidebarComponent = () => {
+interface SidebarComponentProps {
+  isCollapsed: boolean;
+  toggleSidebar: () => void;
+}
+
+const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggleSidebar }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // useMediaQuery to check if screen is larger than 'md' breakpoint
-  const isNonMobile = useMediaQuery(theme.breakpoints.up("md"));
-
-  // State for collapsing the sidebar on desktop
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  // State for toggling (opening/closing) the sidebar on mobile
-  // Initialized to `false`, meaning it will be hidden by default on mobile screens.
-  const [toggled, setToggled] = useState(false);
-  // State for tracking the currently selected menu item
   const [selected, setSelected] = useState("Dashboard");
+  // No longer need isDesktop state here, as isCollapsed will directly control visibility
 
   return (
-    // Outer Box container for the sidebar, ensuring it takes full viewport height
     <Box
       sx={{
-        height: "100vh", // Ensures the sidebar takes full viewport height
-        display: 'flex', // Use flex to position the sidebar
-        flexDirection: 'column', // Stack content vertically inside
-        // Custom styles for react-pro-sidebar internal classes
+        height: "100vh",
         "& .ps-sidebar-container": {
           background: `${colors.primary[400]} !important`,
         },
@@ -91,62 +78,39 @@ const SidebarComponent = () => {
         "& .ps-menu-button.ps-active .ps-menu-label": {
           color: `${colors.greenAccent[500]} !important`,
         },
+        // Optional: Add transition for smoother open/close if not handled by react-pro-sidebar
+        // transition: 'width 0.3s ease-in-out',
       }}
     >
       <Sidebar
-        // `collapsed` prop now conditionally applies based on screen size
-        // On desktop, `isCollapsed` state controls. On mobile, it's always collapsed.
-        collapsed={isNonMobile ? isCollapsed : true}
-        // `toggled` prop controls the open/close state on mobile
-        toggled={toggled}
-        // `onBackdropClick` closes the sidebar when the overlay is clicked on mobile
-        onBackdropClick={() => setToggled(false)}
-        // `breakPoint` defines when the sidebar switches to mobile mode
-        breakPoint="md" // Sidebar will become responsive at Material-UI's 'md' breakpoint
-        // Background color of the sidebar itself
-        backgroundColor={colors.primary[400]}
-        // Option to hide background image if you were using one
-        // image="path/to/image.jpg"
+        collapsed={isCollapsed} // Directly use isCollapsed prop
+        width="250px"
+        collapsedWidth={isCollapsed ? "0px" : "250px"} // Collapse to 0px when true
       >
         <Menu>
-          {/* LOGO AND MENU ICON */}
           <MenuItem
-            // On desktop, this toggles `isCollapsed`. On mobile, it toggles `toggled`.
-            onClick={() => (isNonMobile ? setIsCollapsed(!isCollapsed) : setToggled(!toggled))}
-            // Logic for the MenuItem's icon:
-            // Show MenuOutlinedIcon if on mobile, or if on desktop AND collapsed.
-            icon={isNonMobile ? (isCollapsed ? <MenuOutlinedIcon /> : undefined) : <MenuOutlinedIcon />}
+            onClick={toggleSidebar}
             style={{
               margin: "10px 0 20px 0",
               color: colors.grey[100],
             }}
           >
-            {/* The Box containing ADMINS text and the IconButton.
-                The ADMINS text will now hide when the sidebar is effectively collapsed (on mobile too). */}
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              ml="15px"
-              sx={{ width: '100%' }} // Ensure the Box takes full width for spacing
-            >
-              {/* "ADMINS" text is visible only if the sidebar is NOT collapsed (desktop)
-                  OR if it's mobile AND the sidebar is currently expanded (not collapsed). */}
-              {/* This condition now ensures the text hides when sidebar is collapsed on mobile too */}
-              {(!isCollapsed && isNonMobile) && (
-                  <Typography variant="h3" color={colors.grey[100]}>
-                    ADMINS
-                  </Typography>
-              )}
-              {/* The IconButton for toggling is ALWAYS rendered within this Box. */}
-              <IconButton onClick={() => (isNonMobile ? setIsCollapsed(!isCollapsed) : setToggled(!toggled))}>
-                <MenuOutlinedIcon />
-              </IconButton>
-            </Box>
+            {!isCollapsed && ( // Only show ADMIN text when not collapsed
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                ml="15px"
+              >
+                <Typography variant="h3" color={colors.grey[100]}>
+                  ADMIN
+                </Typography>
+                {/* Hamburger icon is now controlled by the Topbar */}
+              </Box>
+            )}
           </MenuItem>
 
-          {/* USER SECTION - Only visible when not collapsed (desktop) and not collapsed on mobile */}
-          {(!isCollapsed && isNonMobile) && (
+          {!isCollapsed && ( // Only show profile info when not collapsed
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
@@ -154,8 +118,7 @@ const SidebarComponent = () => {
                   width="100px"
                   height="100px"
                   src={Profile}
-                  style={{ cursor: "pointer", borderRadius: "50%"}}
-                />
+                  style={{ cursor: "pointer", borderRadius: "50%"}} />
               </Box>
 
               <Box textAlign="center">
@@ -177,7 +140,6 @@ const SidebarComponent = () => {
             </Box>
           )}
 
-          {/* MENU ITEMS */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
