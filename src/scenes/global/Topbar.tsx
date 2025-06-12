@@ -28,7 +28,8 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => { // Destructure toggleSideba
         justifyContent: "space-between",
         alignItems: "center",
         padding: theme.spacing(2),
-        position: "relative",
+        
+      
       }}
     >
       {/* Left Section: Search Bar and Hamburger Icon */}

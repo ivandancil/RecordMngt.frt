@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Box, Typography, useTheme } from "@mui/material"; // Import useMediaQuery
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { Link } from "react-router-dom";
-import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
-import Profile from "../../assets/profile-1.jpg"
+import { Link } from "react-router-dom"; // Make sure Link is imported
+import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar'; // Assuming react-pro-sidebar
+import Profile from "../../assets/profile-1.jpg"; // Keep your existing imports
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
@@ -27,20 +27,25 @@ interface ItemProps {
 const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <MenuItem
       active={selected === title}
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
+      onClick={() => setSelected(title)} // Keep this to update the selected state
       icon={icon}
+      component={<Link to={to} />} // <-- Crucial Change: Pass Link as the component
+      // Note: react-pro-sidebar v1.0.0+ uses this component prop
+      // For older versions, you might wrap <Typography> in <Link> or use Link's children
     >
       <Typography>{title}</Typography>
-      <Link to={to} />
     </MenuItem>
   );
 };
+
+// ... (rest of your SidebarComponent remains the same)
 
 interface SidebarComponentProps {
   isCollapsed: boolean;
@@ -51,7 +56,7 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [selected, setSelected] = useState("Dashboard");
-  // No longer need isDesktop state here, as isCollapsed will directly control visibility
+    const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <Box
@@ -66,7 +71,7 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
         "& .ps-menu-button": {
           padding: "5px 35px 5px 20px !important",
           backgroundColor: "transparent !important",
-          '&:hover': {
+          "&:hover": {
             color: `${colors.blueAccent[500]} !important`,
             backgroundColor: `${colors.primary[500]} !important`,
           },
@@ -78,14 +83,47 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
         "& .ps-menu-button.ps-active .ps-menu-label": {
           color: `${colors.greenAccent[500]} !important`,
         },
-        // Optional: Add transition for smoother open/close if not handled by react-pro-sidebar
-        // transition: 'width 0.3s ease-in-out',
+        "& .ps-menu-button .MuiTypography-root": {
+          fontSize: { xs: ".6rem", sm: ".8rem", md: "1rem" },
+        },
+        // For the "RecordMngt." title
+        "& .ps-sidebar-root .MuiTypography-h3": {
+            fontSize: { xs: ".8rem", sm: "1rem", md: "1.1rem" },
+        },
+
+          // --- IMPORTANT: Conditional styles for the root Box of the Sidebar ---
+        ...(isDesktop
+          ? {
+              // Desktop styles: Sidebar remains in the normal document flow
+              position: 'relative', // Part of the flex layout in App.js
+              // Width for desktop is controlled by react-pro-sidebar's 'collapsed' prop directly
+              // based on its own width/collapsedWidth props.
+             // Default desktop width when not collapsed
+              // If you have a separate desktop collapse button, its state would dictate isCollapsed
+          }
+          : {
+              // Mobile styles: Sidebar acts as an overlay (fixed position)
+              position: 'fixed', // Makes it an overlay, out of document flow
+              top: 0,
+              left: 0,
+              // Dynamically set width based on the `isCollapsed` prop from App.js
+              // When isCollapsed is true (initial mobile state, or after toggle to close), width is 0.
+              // When isCollapsed is false (after toggle to open), width is 250px.
+              width: isCollapsed ? '0px' : '250px',
+              zIndex: 110, // Higher than Topbar's zIndex (100) to ensure it appears on top
+              transition: 'width 0.3s ease-in-out', // Smooth open/close animation
+              boxShadow: theme.shadows[5], // Add a shadow for visual depth
+              // Hide overflow to prevent scrollbars when sidebar is collapsed
+              overflowX: 'hidden',
+          }),
+
       }}
     >
       <Sidebar
-        collapsed={isCollapsed} // Directly use isCollapsed prop
+        collapsed={isCollapsed}
         width="250px"
-        collapsedWidth={isCollapsed ? "0px" : "250px"} // Collapse to 0px when true
+        collapsedWidth={isCollapsed ? "0px" : "250px"}
+        
       >
         <Menu>
           <MenuItem
@@ -95,22 +133,25 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
               color: colors.grey[100],
             }}
           >
-            {!isCollapsed && ( // Only show ADMIN text when not collapsed
+            {!isCollapsed && (
               <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                ml="15px"
+                ml="3px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  ADMIN
+                <Typography
+                  variant="h3"
+                  color={colors.grey[100]}
+                  sx={{ fontSize: { xs: ".8rem", sm: "1rem", md: "1.1rem" } }}
+                >
+                  RecordMngt.
                 </Typography>
-                {/* Hamburger icon is now controlled by the Topbar */}
               </Box>
             )}
           </MenuItem>
 
-          {!isCollapsed && ( // Only show profile info when not collapsed
+          {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
@@ -118,23 +159,24 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
                   width="100px"
                   height="100px"
                   src={Profile}
-                  style={{ cursor: "pointer", borderRadius: "50%"}} />
+                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                />
               </Box>
 
               <Box textAlign="center">
                 <Typography
                   variant="h2"
                   color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0"}}
+                  fontWeight="500"
+                  sx={{ fontSize: { xs: ".8rem", sm: "1.2rem", md: "1.5rem" }, m: "10px 0 0 0" }}
                 >
                   IvanDancil
                 </Typography>
-                <Typography
-                  variant="h5"
-                  color={colors.greenAccent[500]}
-                >
-                  School Admin
+                <Typography 
+                    variant="h5" 
+                    color={colors.grey[200]}
+                    sx={{  fontSize: { xs: ".6rem", sm: ".7rem", md: ".9rem" } }}>
+                  --- School Admin
                 </Typography>
               </Box>
             </Box>
@@ -147,6 +189,7 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              
             />
 
             <Typography
@@ -157,7 +200,7 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
               Data
             </Typography>
             <Item
-              title="Manage Team"
+              title="Manage Team" 
               to="/team"
               icon={<PeopleOutlinedIcon />}
               selected={selected}

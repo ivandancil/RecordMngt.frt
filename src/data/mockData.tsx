@@ -17,6 +17,14 @@ export const mockDataSystemUsers = [
         phone: "09123456789",
         access: "user",
       },
+       {
+        id: 3,
+        name: "Ivan Dancil",
+        email: "ivanbdancil@gmail.com",
+        age: 20,
+        phone: "09123456789",
+        access: "teacher",
+      },
      
 ];
 
