@@ -1,31 +1,31 @@
 import React, { useState } from "react";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar'; // Make sure SubMenu is imported!
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import Profile from "../assets/profile-1.jpg";
 
 // Import all necessary icons
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'; // For academics
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined'; // For reports
-import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined'; // For announcements
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined"; // For settings
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined"; // For security
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined"; // For the menu toggle icon
-// Add any other specific icons you might need for sub-items if they differ
-// import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined"; // Example for a sub-item icon
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
+import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+// Specific icons for a teacher or student perspective (optional, but good for distinction)
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined'; // For assignments/grades
+import ClassOutlinedIcon from '@mui/icons-material/ClassOutlined'; // For classes
+import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'; // For calendar/schedule
 
 
 import { tokens } from "../theme";
 
-// --- ItemProps Interface ---
-// Modified to include optional subItems for clarity, though `Item` itself won't render them directly
 interface ItemProps {
   title: string;
   to: string;
-  icon: React.ReactNode | null; // icon can be null for sub-items if they don't have one
+  icon: React.ReactNode | null;
   selected: string;
   setSelected: (title: string) => void;
   isCollapsed: boolean;
@@ -42,7 +42,7 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }: ItemProps
         color: colors.grey[100],
       }}
       onClick={() => setSelected(title)}
-      icon={icon} // Render icon even if null, react-pro-sidebar handles it
+      icon={icon}
       component={<Link to={to} />}
     >
       {!isCollapsed && <Typography>{title}</Typography>}
@@ -50,8 +50,8 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }: ItemProps
   );
 };
 
-// --- Streamlined Navigation Data with Sub-items ---
-const streamlinedNavigation = [
+// --- ADMIN NAVIGATION DATA ---
+const adminNavigation = [
   {
     category: "",
     items: [
@@ -67,19 +67,19 @@ const streamlinedNavigation = [
     items: [
       {
         title: "User Management",
-        to: "/admin/usermanagement", // This can be a main page, or just a placeholder for the submenu
+        to: "/admin/usermanagement",
         icon: <PeopleOutlinedIcon />,
-        subItems: [ // Added subItems
-          { title: "All Users", to: "/admin/usermanagement" }, // This could link to a general user list
+        subItems: [
           { title: "Students", to: "/admin/studentmanagement" },
           { title: "Teachers", to: "/admin/teachermanagement" },
+          { title: "All Users", to: "/admin/usermanagement" },
         ]
       },
       {
         title: "Academics",
         to: "/admin/academicmanagement",
         icon: <SchoolOutlinedIcon />,
-        subItems: [ // Added subItems
+        subItems: [
           { title: "Classes", to: "/admin/classmanagement" },
           { title: "Academic Setup", to: "/admin/academicmanagement" },
           { title: "Grading System", to: "/admin/gradingsystem" },
@@ -123,28 +123,161 @@ const streamlinedNavigation = [
     ],
   },
 ];
-// --- End Streamlined Navigation Data ---
+
+// --- TEACHER NAVIGATION DATA ---
+const teacherNavigation = [
+  {
+    category: "",
+    items: [
+      {
+        title: "Dashboard",
+        to: "/teacher", // Teacher specific dashboard
+        icon: <HomeOutlinedIcon />,
+      },
+    ],
+  },
+  {
+    category: "Academics",
+    items: [
+      {
+        title: "My Classes",
+        to: "/teacher/myclasses",
+        icon: <ClassOutlinedIcon />,
+      },
+      {
+        title: "Grade Submissions",
+        to: "/teacher/gradesubmissions",
+        icon: <AssignmentOutlinedIcon />,
+      },
+      {
+        title: "My Students",
+        to: "/teacher/mystudents",
+        icon: <PeopleOutlinedIcon />,
+      },
+    ],
+  },
+  {
+    category: "Communication",
+    items: [
+      {
+        title: "Announcements",
+        to: "/teacher/announcements", // Teacher specific announcements
+        icon: <AnnouncementOutlinedIcon />,
+      },
+      {
+        title: "Messages",
+        to: "/teacher/messages",
+        icon: <ContactsOutlinedIcon />, // Using contacts icon for messages, adjust as needed
+      },
+    ],
+  },
+  {
+    category: "Tools",
+    items: [
+      {
+        title: "Calendar",
+        to: "/teacher/calendar",
+        icon: <CalendarTodayOutlinedIcon />,
+      },
+      {
+        title: "Settings",
+        to: "/teacher/settings",
+        icon: <SettingsOutlinedIcon />,
+      },
+    ],
+  },
+];
+
+// --- STUDENT NAVIGATION DATA ---
+const studentNavigation = [
+  {
+    category: "",
+    items: [
+      {
+        title: "Dashboard",
+        to: "/student", // Student specific dashboard
+        icon: <HomeOutlinedIcon />,
+      },
+    ],
+  },
+  {
+    category: "Academics",
+    items: [
+      {
+        title: "My Courses",
+        to: "/student/mycourses",
+        icon: <SchoolOutlinedIcon />,
+      },
+      {
+        title: "My Grades",
+        to: "/student/mygrades",
+        icon: <AssignmentOutlinedIcon />,
+      },
+      {
+        title: "Schedule",
+        to: "/student/schedule",
+        icon: <CalendarTodayOutlinedIcon />,
+      },
+    ],
+  },
+  {
+    category: "Information",
+    items: [
+      {
+        title: "Announcements",
+        to: "/student/announcements", // Student specific announcements
+        icon: <AnnouncementOutlinedIcon />,
+      },
+      {
+        title: "Profile",
+        to: "/student/profile",
+        icon: <PeopleOutlinedIcon />, // Using people icon for profile, adjust as needed
+      },
+    ],
+  },
+];
 
 
 interface SidebarComponentProps {
   isCollapsed: boolean;
   toggleSidebar: () => void;
+  userRole: string; // "admin", "teacher", "student", etc.
 }
 
-const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggleSidebar }) => {
+const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggleSidebar, userRole }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [selected, setSelected] = useState("Dashboard");
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
+  // --- Select the appropriate navigation data based on userRole ---
+  let currentNavigationData;
+  switch (userRole) {
+    case "admin":
+      currentNavigationData = adminNavigation;
+      break;
+    case "teacher":
+      currentNavigationData = teacherNavigation;
+      break;
+    case "student":
+      currentNavigationData = studentNavigation;
+      break;
+    default:
+      currentNavigationData = []; // Or a "guest" navigation if applicable
+      break;
+  }
+
   return (
     <Box
       sx={{
-        height: "100vh",
+        height: '100dvh',
+        maxHeight: '100dvh',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+
         "& .ps-sidebar-container": {
           background: `${colors.primary[400]} !important`,
         },
-        // Styling for react-pro-sidebar components
         "& .ps-menu-button .ps-menu-icon": {
           backgroundColor: "transparent !important",
         },
@@ -166,33 +299,23 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
         "& .ps-menu-button .MuiTypography-root": {
           fontSize: { xs: ".6rem", sm: ".8rem", md: "1rem" },
         },
-        // Styling for SubMenu labels
         "& .ps-submenu-content .ps-menu-button": {
-          background: `${colors.primary[400]} !important`,
-          paddingLeft: "40px !important", // Indent sub-items
-          fontSize: { xs: ".6rem", sm: ".7rem", md: ".9rem" }, // Adjust font size for sub-items
-           "&:hover": {
-            color: `${colors.blueAccent[500]} !important`,
-            backgroundColor: `${colors.primary[500]} !important`,
-          },
+          paddingLeft: "40px !important",
+          fontSize: { xs: ".6rem", sm: ".7rem", md: ".9rem" },
         },
         "& .ps-submenu-content .MuiTypography-root": {
-          fontSize: { xs: ".6rem", sm: ".7rem", md: ".9rem" }, // Ensure Typography inside sub-items also scales
+          fontSize: { xs: ".6rem", sm: ".7rem", md: ".9rem" },
         },
         "& .ps-menu-label": {
-          fontSize: { xs: ".6rem", sm: ".8rem", md: "1rem" }, // Ensure top-level menu item labels scale
+          fontSize: { xs: ".6rem", sm: ".8rem", md: "1rem" },
         },
-        // For the "RecordMngt." title
         "& .ps-sidebar-root .MuiTypography-h3": {
           fontSize: { xs: ".8rem", sm: "1rem", md: "1.1rem" },
         },
-        // For the user role typography
         "& .ps-sidebar-root .MuiTypography-h5": {
           fontSize: { xs: ".6rem", sm: ".7rem", md: ".9rem" },
         },
 
-
-        // --- IMPORTANT: Conditional styles for the root Box of the Sidebar ---
         ...(isDesktop
           ? {
               position: 'relative',
@@ -201,21 +324,18 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
               position: 'fixed',
               top: 0,
               left: 0,
-              width: isCollapsed ? '0px' : '300px',
+              width: isCollapsed ? '0px' : '250px',
               zIndex: 110,
               transition: 'width 0.3s ease-in-out',
               boxShadow: theme.shadows[5],
-              overflowX: 'hidden',
             }),
-
       }}
     >
       <Sidebar
         collapsed={isCollapsed}
         width="300px"
-        collapsedWidth={isCollapsed ? "0px" : "80px"} // Set a small collapsedWidth for desktop
-        // You might want to adjust this based on whether you want icons visible when collapsed
-           style={{ height: '100%' }}
+        collapsedWidth={isCollapsed ? "0px" : "80px"}
+        style={{ height: '100%' }}
       >
         <Menu>
           {/* LOGO AND MENU ICON */}
@@ -225,7 +345,6 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
               margin: "10px 0 20px 0",
               color: colors.grey[100],
             }}
-            // When collapsed, the menu icon is the only thing shown in this MenuItem
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
           >
             {!isCollapsed && (
@@ -245,10 +364,10 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
                 <MenuOutlinedIcon
                     style={{
                       transition: "transform 0.3s ease-in-out",
-                      transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)", // This rotation might be on the wrong icon if it's the toggle one
-                      opacity: isCollapsed ? 0 : 1, // Hide when collapsed, show when open
+                      transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)",
+                      opacity: isCollapsed ? 0 : 1,
                       color: "white",
-                      cursor: "pointer" // Indicate it's clickable
+                      cursor: "pointer"
                     }}
                   />
               </Box>
@@ -282,18 +401,18 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
                     color={colors.grey[200]}
                     sx={{ fontSize: { xs: ".6rem", sm: ".7rem", md: ".9rem" } }}
                 >
-                  --- School Admin
+                  --- {userRole.charAt(0).toUpperCase() + userRole.slice(1)} {/* Display role here */}
                 </Typography>
               </Box>
             </Box>
           )}
 
-          {/* MENU ITEMS */}
+          {/* MENU ITEMS - NOW DYNAMICALLY LOADED */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            {streamlinedNavigation.map((categoryGroup, index) => (
+            {currentNavigationData.map((categoryGroup, index) => (
               <React.Fragment key={index}>
                 {/* Category Title */}
-                {categoryGroup.category && (
+                {categoryGroup && categoryGroup.category && categoryGroup.items.length > 0 && (
                   <Typography
                     variant="h6"
                     color={colors.grey[300]}
@@ -307,14 +426,13 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
                 )}
 
                 {/* Render Items or SubMenus */}
-                {categoryGroup.items.map((item) => (
-                  item.subItems ? ( // Check if item has subItems
+                {categoryGroup && categoryGroup.items.map((item) => (
+                  item.subItems && item.subItems.length > 0 ? (
                     <SubMenu
                       key={item.title}
-                      label={!isCollapsed ? item.title : ''} // Label for SubMenu. Empty string if collapsed to show only icon.
+                      label={!isCollapsed ? item.title : ''}
                       icon={item.icon}
-                      className={selected.includes(item.title) ? 'ps-active' : ''} // Apply active class to SubMenu if any subitem is selected
-                      // You might want to expand the submenu if one of its children is selected
+                      className={selected.includes(item.title) || item.subItems.some(sub => sub.title === selected) ? 'ps-active' : ''}
                       defaultOpen={item.subItems.some(sub => sub.title === selected)}
                     >
                       {item.subItems.map(subItem => (
@@ -322,14 +440,14 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
                           key={subItem.title}
                           title={subItem.title}
                           to={subItem.to}
-                          icon={null} // Sub-items typically don't have icons, or you can assign different ones
+                          icon={null}
                           selected={selected}
                           setSelected={setSelected}
-                          isCollapsed={isCollapsed} // Pass isCollapsed
+                          isCollapsed={isCollapsed}
                         />
                       ))}
                     </SubMenu>
-                  ) : ( // Render a regular Item if no subItems
+                  ) : (
                     <Item
                       key={item.title}
                       title={item.title}
@@ -337,7 +455,7 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
                       icon={item.icon}
                       selected={selected}
                       setSelected={setSelected}
-                      isCollapsed={isCollapsed} // Pass isCollapsed
+                      isCollapsed={isCollapsed}
                     />
                   )
                 ))}
