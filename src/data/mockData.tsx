@@ -1,13 +1,15 @@
+import type { SystemUser } from "../pages/admin/UserManagement";
+import type { ContactUsers } from "../scenes/contacts";
 
 
-export const mockDataSystemUsers = [
+export const mockDataSystemUsers: SystemUser[] = [ 
     {
         id: 1,
         name: "Belizardo Valdez",
         email: "belizardovaldez@gmail.com",
         age: 20,
         phone: "09123456789",
-        access: "admin",
+        access: "School Admin",
       },
       {
         id: 2,
@@ -15,7 +17,7 @@ export const mockDataSystemUsers = [
         email: "escarlanjohnray@gmail.com",
         age: 20,
         phone: "09123456789",
-        access: "user",
+        access: "Student",
       },
        {
         id: 3,
@@ -23,12 +25,12 @@ export const mockDataSystemUsers = [
         email: "ivanbdancil@gmail.com",
         age: 20,
         phone: "09123456789",
-        access: "teacher",
+        access: "Teacher",
       },
      
 ];
 
-export const mockDataEmployee = [
+export const mockDataContacts: ContactUsers[] = [
   {
       id: 1,
       name: "Charles Ryan Montecina",
@@ -37,8 +39,8 @@ export const mockDataEmployee = [
       phone: "09123456789",
       address: "Tacloban City",
       province: "Leyte",
-      zipCode: "",
-      employeeId: "12345",
+      zipCode: "6510",
+      registrarId: "12345",
     },
     {
       id: 2,
@@ -48,8 +50,8 @@ export const mockDataEmployee = [
       phone: "09123456789",
       address: "Tacloban City",
       province: "Leyte",
-      zipCode: "",
-      employeeId: "67890",
+      zipCode: "6510",
+      registrarId: "67890",
     },
     {
       id: 3,
@@ -59,8 +61,8 @@ export const mockDataEmployee = [
       phone: "09123456789",
       address: "Tacloban City",
       province: "Leyte",
-      zipCode: "",
-      employeeId: "23456",
+      zipCode: "6510",
+      registrarId: "23456",
     },
     {
       id: 4,
@@ -70,8 +72,8 @@ export const mockDataEmployee = [
       phone: "09123456789",
       address: "Tacloban City",
       province: "Leyte",
-      zipCode: "",
-      employeeId: "45678",
+      zipCode: "6510",
+      registrarId: "45678",
     },
    
 ];
