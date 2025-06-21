@@ -20,7 +20,7 @@ const AdminLayout = () => {
   // --- START: Add user role state ---
   // IMPORTANT: In a real application, replace this with actual authentication
   // logic to get the user's role (e.g., from a login API, context, or Redux store).
-  const [userRole, setUserRole] = useState("admin"); // Default to "admin" for testing
+  const [userRole] = useState("admin"); // Default to "admin" for testing
   // You might fetch this from localStorage, a context, or an API call on mount
   useEffect(() => {
     // Example: Simulate fetching user role after login

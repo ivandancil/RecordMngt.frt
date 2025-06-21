@@ -50,8 +50,30 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }: ItemProps
   );
 };
 
+// --- Type Definitions for Navigation Data ---
+interface SubNavigationItem {
+  title: string;
+  to: string;
+}
+
+interface NavigationItem {
+  title: string;
+  to: string;
+  icon: React.ReactNode;
+  subItems?: SubNavigationItem[]; // subItems is optional
+}
+
+interface NavigationCategory {
+  category: string;
+  items: NavigationItem[];
+}
+
+// Define a type for the entire navigation structure
+type NavigationData = NavigationCategory[];
+
+
 // --- ADMIN NAVIGATION DATA ---
-const adminNavigation = [
+const adminNavigation: NavigationData = [
   {
     category: "",
     items: [
@@ -125,7 +147,7 @@ const adminNavigation = [
 ];
 
 // --- TEACHER NAVIGATION DATA ---
-const teacherNavigation = [
+const teacherNavigation: NavigationData = [
   {
     category: "",
     items: [
@@ -189,7 +211,7 @@ const teacherNavigation = [
 ];
 
 // --- STUDENT NAVIGATION DATA ---
-const studentNavigation = [
+const studentNavigation: NavigationData = [
   {
     category: "",
     items: [
@@ -204,8 +226,8 @@ const studentNavigation = [
     category: "Academics",
     items: [
       {
-        title: "My Courses",
-        to: "/student/mycourses",
+        title: "My Subject",
+        to: "/student/mysubject",
         icon: <SchoolOutlinedIcon />,
       },
       {
@@ -251,7 +273,7 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   // --- Select the appropriate navigation data based on userRole ---
-  let currentNavigationData;
+  let currentNavigationData: NavigationData;
   switch (userRole) {
     case "admin":
       currentNavigationData = adminNavigation;
@@ -284,14 +306,17 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
         "& .ps-menu-button": {
           padding: "5px 35px 5px 20px !important",
           backgroundColor: "transparent !important",
+           background: `${colors.primary[400]} !important`,
           "&:hover": {
             color: `${colors.blueAccent[500]} !important`,
             backgroundColor: `${colors.primary[500]} !important`,
+            
           },
         },
         "& .ps-menu-button.ps-active": {
           color: `${colors.greenAccent[500]} !important`,
           backgroundColor: `${colors.primary[500]} !important`,
+          
         },
         "& .ps-menu-button.ps-active .ps-menu-label": {
           color: `${colors.greenAccent[500]} !important`,
@@ -324,7 +349,7 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
               position: 'fixed',
               top: 0,
               left: 0,
-              width: isCollapsed ? '0px' : '250px',
+              width: isCollapsed ? '0px' : '300px',
               zIndex: 110,
               transition: 'width 0.3s ease-in-out',
               boxShadow: theme.shadows[5],
