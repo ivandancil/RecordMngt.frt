@@ -1,36 +1,36 @@
-import { Box, colors, Grid, Paper, Typography } from '@mui/material'
-import Header from '../../components/Header'
+import { Box, Grid, Paper, Typography, colors } from "@mui/material"
+import Header from "../../components/Header"
 import { GroupOutlined } from '@mui/icons-material';
 
-const Dashboard = () => {
+const TeacherDashboard = () => {
 
-   // ✅ Overview Data with fixed structure
-  const overviewData = [
-    {
-      title:  11,
-      subtitle: "Total Number of Students" ,
-      icon: <GroupOutlined sx={{ fontSize: 30, color: "#3498db" }} />,
-    },
-     {
-      title:  11,
-      subtitle: "Total Number of Students",
-      icon: <GroupOutlined sx={{ fontSize: 30, color: "#3498db" }} />,
-    },
-    {
-      title:  11,
-      subtitle: "Total Number of Students",
-      icon: <GroupOutlined sx={{ fontSize: 30, color: "#3498db" }} />,
-    },
-    
-  ];
+  // ✅ Overview Data with fixed structure
+      const overviewData = [
+        {
+          title:  11,
+          subtitle: "Total Number of Students" ,
+          icon: <GroupOutlined sx={{ fontSize: 30, color: "#3498db" }} />,
+        },
+         {
+          title:  11,
+          subtitle: "Total Number of Students",
+          icon: <GroupOutlined sx={{ fontSize: 30, color: "#3498db" }} />,
+        },
+        {
+          title:  11,
+          subtitle: "Total Number of Students",
+          icon: <GroupOutlined sx={{ fontSize: 30, color: "#3498db" }} />,
+        },
+        
+      ];
 
   return (
-   <Box m="20px">
+    <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="School Admin Dashboard" subtitle="Welcome to your Dashboard"/>
+        <Header title="Teachers Dashboard" subtitle="Welcome to your Dashboard"/>
       </Box>
 
-       {/* Overview Section */}
+        {/* Overview Section */}
       <Grid container spacing={2} mt={0.5}>
         {overviewData.map((item) => (
       
@@ -60,9 +60,8 @@ const Dashboard = () => {
         ))}
        
       </Grid>
-      
     </Box>
   )
 }
 
-export default Dashboard
+export default TeacherDashboard

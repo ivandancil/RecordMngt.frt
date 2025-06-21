@@ -151,9 +151,20 @@ function Navbar() {
           </>
         ) : (
           <>
+           
             <NavLink to="/admin" style={{ textDecoration: "none" }}>
               <Button fullWidth sx={{ justifyContent: "flex-start", color: "white" }}>
                 Admin
+              </Button>
+            </NavLink>
+             <NavLink to="/teacher" style={{ textDecoration: "none" }}>
+              <Button fullWidth sx={{ justifyContent: "flex-start", color: "white" }}>
+                Teacher
+              </Button>
+            </NavLink>
+             <NavLink to="/student" style={{ textDecoration: "none" }}>
+              <Button fullWidth sx={{ justifyContent: "flex-start", color: "white" }}>
+                Student
               </Button>
             </NavLink>
              <NavLink to="/login" style={{ textDecoration: "none" }}>
@@ -237,7 +248,7 @@ function Navbar() {
             </NavLink>
 
             {/* Admin NavLink */}
-            <NavLink to="/admin" style={{ textDecoration: "none" }}>
+            {/* <NavLink to="/admin" style={{ textDecoration: "none" }}>
               {({ isActive }) => (
                 <Button
                   sx={{
@@ -255,7 +266,49 @@ function Navbar() {
                   Admin
                 </Button>
               )}
-            </NavLink>
+            </NavLink> */}
+
+             {/* Teacher NavLink */}
+            {/* <NavLink to="/teacher" style={{ textDecoration: "none" }}>
+              {({ isActive }) => (
+                <Button
+                  sx={{
+                    mx: 1,
+                    color: isActive ? "#1976d2" : "black",
+                    fontSize: "1.1rem",
+                    fontWeight: 600,
+                    borderBottom: isActive ? "2px solid #1976d2" : "none",
+                    "&:hover": {
+                      bgcolor: "#f0f0f0",
+                      color: "#1976d2",
+                    },
+                  }}
+                >
+                  Teacher
+                </Button>
+              )}
+            </NavLink> */}
+
+             {/* Student NavLink */}
+            {/* <NavLink to="/student" style={{ textDecoration: "none" }}>
+              {({ isActive }) => (
+                <Button
+                  sx={{
+                    mx: 1,
+                    color: isActive ? "#1976d2" : "black",
+                    fontSize: "1.1rem",
+                    fontWeight: 600,
+                    borderBottom: isActive ? "2px solid #1976d2" : "none",
+                    "&:hover": {
+                      bgcolor: "#f0f0f0",
+                      color: "#1976d2",
+                    },
+                  }}
+                >
+                  Student
+                </Button>
+              )}
+            </NavLink> */}
 
             {isLoggedIn ? (
               <>
