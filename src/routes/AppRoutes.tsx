@@ -41,7 +41,7 @@ const AppRoutes = () => {
       {/* Landing Page Route */}
       <Route path="/" element={<LandingPage />} />
 
-      {/* Admin Routes */}
+      {/* Admin Routes */}  
       <Route
         path="/admin" // Change the path for admin routes
         element={<AdminLayout />}

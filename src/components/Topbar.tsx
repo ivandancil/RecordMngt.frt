@@ -1,5 +1,4 @@
 import { IconButton, InputBase, useTheme, useMediaQuery } from "@mui/material";
-
 import { useContext, useState } from "react";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
