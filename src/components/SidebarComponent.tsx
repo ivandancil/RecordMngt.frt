@@ -308,18 +308,18 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
           backgroundColor: "transparent !important",
            background: `${colors.primary[400]} !important`,
           "&:hover": {
-            color: `${colors.blueAccent[500]} !important`,
-            backgroundColor: `${colors.primary[500]} !important`,
+               color: `${colors.grey[100]} !important`,
+            backgroundColor: `${colors.primary[800]} !important`,
             
           },
         },
         "& .ps-menu-button.ps-active": {
-          color: `${colors.greenAccent[500]} !important`,
-          backgroundColor: `${colors.primary[500]} !important`,
+          color: `${colors.grey[100]} !important`,
+          backgroundColor: `${colors.grey[800]} !important`,
           
         },
         "& .ps-menu-button.ps-active .ps-menu-label": {
-          color: `${colors.greenAccent[500]} !important`,
+          color: `${colors.grey[100]} !important`,
         },
         "& .ps-menu-button .MuiTypography-root": {
           fontSize: { xs: ".6rem", sm: ".8rem", md: "1rem" },
@@ -391,7 +391,7 @@ const SidebarComponent: React.FC<SidebarComponentProps> = ({ isCollapsed, toggle
                       transition: "transform 0.3s ease-in-out",
                       transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)",
                       opacity: isCollapsed ? 0 : 1,
-                      color: "white",
+                      color: colors.grey[100],
                       cursor: "pointer"
                     }}
                   />

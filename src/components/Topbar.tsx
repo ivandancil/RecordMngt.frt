@@ -33,7 +33,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => { // Destructure toggleSideba
       {/* Left Section: Search Bar and Hamburger Icon */}
       <div style={{ display: "flex", alignItems: "center" }}>
         {/* Hamburger Icon - now always visible */}
-        <IconButton onClick={toggleSidebar} sx={{ mr: 1 }}> {/* Add right margin */}
+        <IconButton onClick={toggleSidebar} sx={{ mr: 1, color: colors.grey[900]}}> {/* Add right margin */}
           <MenuOutlinedIcon />
         </IconButton>
 
@@ -41,12 +41,13 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => { // Destructure toggleSideba
         <div
           style={{
             display: "flex",
-            backgroundColor: colors.primary[400],
-            borderRadius: "3px",
+            backgroundColor: colors.grey[100],
+            borderRadius: "4px",
+            
           }}
         >
           <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-          <IconButton type="button" sx={{ p: 1 }}>
+          <IconButton type="button" sx={{ p: 1.3 }}>
             <SearchIcon />
           </IconButton>
         </div>
@@ -86,7 +87,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => { // Destructure toggleSideba
             }),
           }}
         >
-          <IconButton onClick={colorMode.toggleColorMode}>
+          <IconButton onClick={colorMode.toggleColorMode} sx={{ color: colors.grey[900]}}>
             {theme.palette.mode === "dark" ? (
               <DarkModeOutlinedIcon  sx={{ fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" } }} />
             ) : (
@@ -95,15 +96,15 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => { // Destructure toggleSideba
           </IconButton>
           <IconButton>
             <NotificationsOutlinedIcon 
-            sx={{ fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" } }} />
+            sx={{ fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },  color: colors.grey[900], }} />
           </IconButton>
           <IconButton>
             <SettingsOutlinedIcon 
-             sx={{ fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" } }} />
+             sx={{ fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },  color: colors.grey[900], }} />
           </IconButton>
           <IconButton>
             <PersonOutlinedIcon 
-             sx={{ fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" } }} />
+             sx={{ fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },  color: colors.grey[900], }} />
           </IconButton>
         </div>
       </div>

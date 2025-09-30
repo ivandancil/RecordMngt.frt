@@ -123,15 +123,24 @@ function Navbar() {
            variant="h6" 
            fontWeight="400" 
               sx={{ 
-                fontSize: { xs: ".8rem", sm: "1rem", md: "1.1rem" } 
+                fontSize: { xs: ".8rem", sm: "1rem", md: "1.1rem" },
+                color: colors.grey[100]
+                
               }}
             >
-          {userName || "RecordMngt."}
+          {"RecordMngt."}
         </Typography>
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column", p: 2}}>
         <NavLink to="/" style={{ textDecoration: "none" }}>
-          <Button fullWidth sx={{ justifyContent: "flex-start", color: "white",  fontWeight: "300" }}>
+          <Button 
+            fullWidth 
+              sx={{ 
+                justifyContent: "flex-start", 
+                color: colors.grey[100],  
+                fontWeight: "300", 
+              }}
+            >
             Home
           </Button>
         </NavLink>
@@ -153,27 +162,27 @@ function Navbar() {
           <>
            
             <NavLink to="/admin" style={{ textDecoration: "none" }}>
-              <Button fullWidth sx={{ justifyContent: "flex-start", color: "white", fontWeight: "300" }}>
+              <Button fullWidth sx={{ justifyContent: "flex-start", color: colors.grey[100], fontWeight: "300" }}>
                 Admin
               </Button>
             </NavLink>
              <NavLink to="/teacher" style={{ textDecoration: "none" }}>
-              <Button fullWidth sx={{ justifyContent: "flex-start", color: "white",  fontWeight: "300" }}>
+              <Button fullWidth sx={{ justifyContent: "flex-start", color: colors.grey[100],  fontWeight: "300" }}>
                 Teacher
               </Button>
             </NavLink>
              <NavLink to="/student" style={{ textDecoration: "none" }}>
-              <Button fullWidth sx={{ justifyContent: "flex-start", color: "white",  fontWeight: "300" }}>
+              <Button fullWidth sx={{ justifyContent: "flex-start", color: colors.grey[100],  fontWeight: "300" }}>
                 Student
               </Button>
             </NavLink>
              <NavLink to="/login" style={{ textDecoration: "none" }}>
-              <Button fullWidth sx={{ justifyContent: "flex-start", color: "white",  fontWeight: "300" }}>
+              <Button fullWidth sx={{ justifyContent: "flex-start", color: colors.grey[100],  fontWeight: "300" }}>
                 Login
               </Button>
             </NavLink>
             <NavLink to="/register" style={{ textDecoration: "none" }}>
-              <Button fullWidth sx={{ justifyContent: "flex-start", color: "white",  fontWeight: "300" }}>
+              <Button fullWidth sx={{ justifyContent: "flex-start", color: colors.grey[100],  fontWeight: "300" }}>
                 Register
               </Button>
             </NavLink>
